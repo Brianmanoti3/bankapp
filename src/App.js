@@ -1,11 +1,19 @@
 // App.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TransactionForm from "./TransactionForm";
 import TransactionTable from "./TransactionTable";
 
 const App = () => {
   const [transactions, setTransactions] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:8001/transactions")
+    .then((response) => response.json())
+    .then((data) => setTransactions(data))
+    .catch((error) => console.error("Error fetching data:", error));
+
+  },[]);
 
   const addTransaction = (newTransaction) => {
     setTransactions([...transactions, newTransaction]);
